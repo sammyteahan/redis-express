@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Landing</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+</head>
+<body>
+  <h2>DIR-S</h2>
+  <ul id="messages"></ul>
+  <form>
+    <input id="m" />
+    <button>Send</button>
+  </form>
+
+  <script>
+    var socket = io();
+
+    $('form').submit(function() {
+      socket.emit('chat', $('#m').val());
+      $('#m').val('');
+      return false;
+    });
+
+    socket.on('chat', function (message) {
+      $('#messages').append($('<li>').text(message));
+    });
+
+    socket.on('state', function (message) {
+      console.log(message);
+    });
+  </script>
+</body>
+</html>
